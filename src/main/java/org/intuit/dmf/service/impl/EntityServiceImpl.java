@@ -42,11 +42,11 @@ public class EntityServiceImpl implements EntityService {
 
                 if (cassandraDaoList.size() == 0 || cassandraDaoList == null) {
 
-                    System.out.println("Entity " + entityId + " not found in central repository also");
+                    System.out.println("Entity " + entityId + " not found in Central repository also");
                 }
                 else {
 
-                    System.out.println("Entity " + entityId + " found in central repository");
+                    System.out.println("Entity " + entityId + " found in Central repository");
 
                     entityDaoForResponse = new EntityDao();
 
