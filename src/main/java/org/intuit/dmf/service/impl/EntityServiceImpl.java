@@ -6,6 +6,8 @@ import org.intuit.dmf.entity.EntityDao;
 import org.intuit.dmf.repository.cassandra.EntityCassandraRepository;
 import org.intuit.dmf.repository.elasticsearch.EntityElasticSearchRepository;
 import org.intuit.dmf.service.EntityService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.cassandra.repository.MapId;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,9 @@ public class EntityServiceImpl implements EntityService {
     @Autowired
     ObjectMapper objectMapper;
 
+    private static final Logger LOG = LoggerFactory.getLogger(EntityServiceImpl.class);
+
+
     @Override
     public EntityDao getEntity(String entityId){
 
@@ -35,18 +40,18 @@ public class EntityServiceImpl implements EntityService {
 
         if (entityDaoForResponse == null){
 
-            System.out.println("Entity " + entityId + " not found in Cache");
+            LOG.info("Entity " + entityId + " not found in Cache");
 
             try {
                 List<EntityCassandraDao> cassandraDaoList = entityCassandraRepository.getEntityById(entityId);
 
                 if (cassandraDaoList.size() == 0 || cassandraDaoList == null) {
 
-                    System.out.println("Entity " + entityId + " not found in Central repository also");
+                    LOG.info("Entity " + entityId + " not found in Central repository also");
                 }
                 else {
 
-                    System.out.println("Entity " + entityId + " found in Central repository");
+                    LOG.info("Entity " + entityId + " found in Central repository");
 
                     entityDaoForResponse = new EntityDao();
 
@@ -64,7 +69,7 @@ public class EntityServiceImpl implements EntityService {
         }
         else{
 
-            System.out.println("Entity " + entityId + " found in Cache");
+            LOG.info("Entity " + entityId + " found in Cache");
             return entityDaoForResponse;
         }
 
