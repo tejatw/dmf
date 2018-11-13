@@ -1,10 +1,13 @@
 package org.intuit.dmf.entity;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+
+@Document(indexName = "entities", type = "entity")
 public class EntityDao {
 
+    @Id
     private String id;
-
-    private String JSONObject;
 
     public String getId() {
         return id;
@@ -14,11 +17,24 @@ public class EntityDao {
         this.id = id;
     }
 
-    public String getJSONObject() {
-        return JSONObject;
+    private String key;
+
+    private Object value;
+
+    public String getKey() {
+        return key;
     }
 
-    public void setJSONObject(String JSONObject) {
-        this.JSONObject = JSONObject;
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
     }
 }

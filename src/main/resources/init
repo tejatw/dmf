@@ -1,0 +1,41 @@
+curl -XPUT 'http://localhost:9200/entities/' -d '{
+    "settings" : {
+        "index" : {
+            "number_of_shards" : 3,
+            "number_of_replicas" : 1
+        }
+    }
+}'
+
+curl -XPUT 'http://localhost:9200/entities/_mapping/entity/' -d'
+{
+  "properties": {
+    "key": {
+      "type": "string",
+      "index": "not_analyzed"
+    },
+    "value": {
+        "properties": {}
+    }
+  }
+}'
+
+curl -XDELETE 'http://localhost:9200/entities?pretty'
+
+
+curl -XPUT 'http://localhost:9200/entities/entity/uuid1' -d'
+{
+    "key": "uuid1",
+    "value": {"id": "uuid1", "name": "teja"}
+}'
+
+CREATE KEYSPACE dmf WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1}  AND durable_writes = true;
+
+CREATE TABLE dmf.entities (
+    id text,
+    key text,
+    value text,
+    PRIMARY KEY (id)
+    );
+
+insert into dmf.entities (id, key, value) values ('uuid2', 'uuid2', '{"id": "uuid2", "name": "ravi"}');
